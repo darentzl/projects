@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+
+.list-cell:filled {
+	-fx-border-radius: 5 5 5 5;
+	-fx-border-width: 2;
+	-fx-border-insets: 2 0 2 0;
+	-fx-border-color: rgb(103,103,103);
+	-fx-background-color: rgb(192,192,192, 0.2); 
+	-fx-background-radius: 6 6 6 6;
+	-fx-background-insets: 2 0 2 0;    
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
+}
+
+.text-area {
+	-fx-background-color: transparent;
+    -fx-padding: 3 3 3 3;
+    -fx-display-caret: true;
+    -fx-font: 12pt "Helvetica";    
+}
+
+.list-cell:empty {
+    -fx-background-color: transparent;
+}
+
+.list-view {
+  	-fx-background-image: url("file:images/bg.jpg");
+    -fx-padding: 7.5;
+}
+
+.root {
+    -fx-background-color: red;
+}
