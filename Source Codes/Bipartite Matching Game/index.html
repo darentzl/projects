@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>Interactive Matching Activity</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+<p>Message: <span id="msg">Select worksheet size and click 'Generate'</span>.</p>
+
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Generate new worksheet with</h4>
+			</div>
+			<div class="modal-body">
+				<b>N</b>= <input type="number" min="2" max="12" value=3 id="n" name='n'> on left Column
+			</div>
+			<div class="modal-body">
+				<b>M</b>= <input type="number" min="2" max="12" value=4 id="m" name='m'> on right Column
+			</div>
+			<div class="modal-footer">
+				<button onclick="process()" id="btn" class="btn btn-primary">Generate</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="status"></div>
+
+<div id="table-wrapper">
+<table id="tbl">
+</table>
+<div>
+	<button onclick="reset()" id="btn" class="btn btn-primary">Reset</button>
+	<button onclick="solve()" id="btn" class="btn btn-primary">Solve</button>
+</div>
+</div>
+
+<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="js/jquery-2.2.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>

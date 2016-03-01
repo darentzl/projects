@@ -1,0 +1,95 @@
+
+/* style.css, by default saved in subfolder /css */
+td { 
+	font-size: 200%; 
+	-webkit-transition: 0.5s ease-in-out;
+}
+
+#table-wrapper {
+	text-align: center;
+}
+
+table {
+	width: 100%;
+}
+	
+p {
+	text-align: center;
+}
+
+img {
+	width: 100px;
+	height: 100px;
+}
+
+td.left:hover {
+	transform: translate(1.5em,0);
+}
+
+td.right:hover {
+	transform: translate(-1.5em,0);
+}
+
+td.clickedLeft {
+	opacity: 0.5;
+	transform: translate(1.5em, 0);
+}
+
+td.clickedRight {
+	opacity: 0.5;
+	transform: translate(-1.5em,0);
+}
+
+td.matched {
+	-webkit-filter: brightness(0);
+	opacity:1;
+	user-drag: none; 
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+
+td.matched:hover {
+	transform: none;
+}
+
+
+@media screen and (max-width: 480px) {
+
+	img {
+		width: 70px;
+		height: 70px;
+	}
+
+	td.left:hover {
+		transform: translate(1em,0);
+	}
+
+	td.right:hover {
+		transform: translate(-1em,0);
+	}
+
+	td.clickedLeft {
+		opacity: 0.5;
+		transform: translate(1em, 0);
+	}
+
+	td.clickedRight {
+		opacity: 0.5;
+		transform: translate(-1em,0);
+	}
+
+	td.matched {
+		-webkit-filter: brightness(0);
+		opacity:1;
+		user-drag: none; 
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-drag: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+
+}
