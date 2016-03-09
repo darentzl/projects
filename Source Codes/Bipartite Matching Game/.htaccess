@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "My Lab TA, please enter 'TA' (CAPITAL) as the uid and the pwd that I will tell you seperately
-AuthUserFile "/home/a0111855/public_html/lab4/passwd"
-Require user TA

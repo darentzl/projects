@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Password is: lab1
+AuthUserFile "/BipartiteMatchingGame/passwd"
+Require user

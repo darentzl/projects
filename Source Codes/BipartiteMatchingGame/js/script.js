@@ -1,6 +1,7 @@
 var xmlHttp = createXmlHttpRequestObject();
 var edgeList = [];
 var toWin = 0;
+var matchedEdges =[];
 
 function createXmlHttpRequestObject() {
 	var xmlHttp;
@@ -29,15 +30,14 @@ function createXmlHttpRequestObject() {
 function process() {
 	//Check if object is rdy to communicate
 	if(xmlHttp.readyState==0 || xmlHttp.readyState==4) {
-		//Get info from webpage
-		n_value = encodeURIComponent(document.getElementById("n").value);
-		m_value = encodeURIComponent(document.getElementById("m").value);
+		x_value = encodeURIComponent(document.getElementById("x").value);
+
 		//Prepare request
-		xmlHttp.open("GET", "matching.php?n_value=" + n_value +"&m_value=" + m_value, true);
+		xmlHttp.open("GET", "matching.php?cmd=generate&graph_id=" + x_value, true);
 		xmlHttp.onreadystatechange = handleServerResponse;
+		
 		//Send Request
 		xmlHttp.send(null);
-
 	}
 	/*else {
 		setTimeout('process()',1000);
@@ -51,9 +51,8 @@ function handleServerResponse() {
 	if(xmlHttp.readyState==4) {
 		//200 on object means communication is ok (corrupt data, srv down will not output 200)
 		if(xmlHttp.status==200) {
-			xmlResponse = xmlHttp.responseXML;
-			xmlDocumentElement = xmlResponse.documentElement;
-			message = xmlDocumentElement.firstChild.data;
+			
+			message =this.responseText;
 			graph = JSON.parse(message);
 
 			var num = (graph.E).length;
@@ -98,11 +97,12 @@ $(document).ready( function() {
 		$('#myModal').modal('hide');
 		$('#tbl tr').remove();
 
-		leftRows = $('#n').val();
-		rightRows = $('#m').val();
+		x_val = $('#x').val();
+		leftRows = getRowValue(x_val,1);
+		rightRows = getRowValue(x_val,2);
 		height = Math.max(leftRows, rightRows);
 
-		validateNum(leftRows, rightRows);
+		validateX(x_val);
 
 		var randArray1 = randomNumbers(leftRows);
 		var randArray2 = randomNumbers(rightRows);
@@ -126,11 +126,78 @@ $(document).ready( function() {
 		}
 		$("#tbl").append(table);
 
-		document.getElementById('msg').innerHTML='Make as many animals eat food and then maximize the total score';
+		document.getElementById('msg').innerHTML='Make as many animals eat + get highest total score';
 		matchImage();
 	});
 
 });
+
+function getRowValue(x, column) {
+	switch (x) {
+    case "1":
+        if(column==1) {
+        	return 3;
+        } else {
+        	return 3;
+        }
+        break;
+    case "2":
+        if(column==1) {
+        	return 2;
+        } else {
+        	return 3;
+        }
+        break;
+    case "3":
+        if(column==1) {
+        	return 2;
+        } else {
+        	return 2;
+        }
+        break;
+    case "4":
+        if(column==1) {
+        	return 5;
+        } else {
+        	return 3;
+        }
+        break;
+    case "5":
+        if(column==1) {
+        	return 4;
+        } else {
+        	return 2;
+        }
+        break;
+    case "6":
+        if(column==1) {
+        	return 3;
+        } else {
+        	return 4;
+        }
+        break;
+    case "7":
+        if(column==1) {
+        	return 5;
+        } else {
+        	return 5;
+        }        break;
+    case "8":
+        if(column==1) {
+        	return 6;
+        } else {
+        	return 7;
+        }
+        break;
+    case "9":
+        if(column==1) {
+        	return 8;
+        } else {
+        	return 8;
+        }
+        break;
+	}
+}
 
 function countCatsNeededToWin() {
 	var array = [];
@@ -168,15 +235,10 @@ function matchImage() {
 	count=0;
 	score=0;
 	catsThatAte = [];
-/*
-	match = new Array(rows);
-	for(var i=1; i<=rows; i++) {
-		match[i] = -1;
-	}*/
 
 	$('.left').click( function() {
 		leftRowNum = parseInt($(this).parent().index() ) +1;
-		console.log("L"+leftRowNum);
+		//console.log("L"+leftRowNum);
 		if($(this).hasClass('matched')) {
 			document.getElementById('msg').innerHTML='This cat has eaten...';
 		} else if(!leftElementMoved) {
@@ -198,8 +260,9 @@ function matchImage() {
 					rightElementMoved = false;
 					//match[leftRowNum] = rightRowNum;
 					drawBoldLine(leftRowNum, rightRowNum, "green");
+					matchedEdges.push(new Array(leftRowNum, rightRowNum, weight));
 					catsThatAte.push(leftRowNum);
-					checkGame(score);
+					//checkGame(score);
 				} else {
 					document.getElementById('msg').innerHTML='Try again';
 					$(this).removeClass('clickedLeft');
@@ -224,7 +287,7 @@ function matchImage() {
 
 	$('.right').click( function() {
 		rightRowNum = parseInt($(this).parent().index() ) +1;
-		console.log("R"+rightRowNum);
+		//console.log("R"+rightRowNum);
 		if($(this).hasClass('matched')) {
 			document.getElementById('msg').innerHTML='This food has been eaten...';
 		} else if(!rightElementMoved) {
@@ -245,7 +308,8 @@ function matchImage() {
 					rightElementMoved = false;
 					//match[leftRowNum] = rightRowNum;
 					drawBoldLine(leftRowNum, rightRowNum, "green");
-					checkGame(score);
+					matchedEdges.push(new Array(leftRowNum, rightRowNum, weight));
+					//checkGame(score);
 				} else {
 					document.getElementById('msg').innerHTML='Try again';
 					$(this).removeClass('clickedRight');
@@ -278,14 +342,9 @@ function edgeExist(left, right) {
 	return weight;
 }
 
-function validateNum(l, r) {
-	if(l<1 ) {
-		alert("Please enter a value N >= 1");
-		window.location.reload();
-	}
-
-	if(r>10) {
-		alert("Please enter a value M <= 10");
+function validateX(x) {
+	if(x<1 || x >9) {
+		alert("Please enter a value X from 1 to 9");
 		window.location.reload();
 	}
 }
@@ -300,6 +359,7 @@ function checkGame(score) {
 
 function reset() {
 	toWin=0;
+	matchedEdges=[];
 	$('#myModal').modal('show');
 }
 
@@ -326,7 +386,7 @@ function solve() {
 		{
 			if (solver.readyState == XMLHttpRequest.DONE) {
 				if (solver.status == 200) {
-					message2 = solver.responseXML;
+					message2 = solver.responseText;
 					answer = JSON.parse(message2);
 
 					var num = (answer.match).length;
@@ -341,6 +401,52 @@ function solve() {
 		}
 		//Send Request
 		solver.send(null);
+	}
+}
+
+function submit() {
+	sol_score = score;
+	graph_id = x_val;
+	var submit = new XMLHttpRequest();
+	var isValid;
+	//console.log("matching.php?cmd=submit&graph_id=" +graph_id+ "&solution="+JSON.stringify(matchedEdges)+"&score="+score);
+	if(submit.readyState==0 || submit.readyState==4) {
+		//Prepare request
+		submit.open("GET", "matching.php?cmd=submit&graph_id=" +graph_id+ "&solution="+JSON.stringify(matchedEdges)+"&score="+score, true);
+		submit.onreadystatechange = function()
+		{
+			if (submit.readyState == XMLHttpRequest.DONE) {
+				if (submit.status == 200) {
+					
+					message3 = submit.responseText;
+					msg = JSON.parse(message3);
+					
+					if(msg == "Invalid") {
+						document.getElementById("msg").innerHTML='Please do not input invalid solution through php scripts directly';
+					} else if (Boolean(msg.new_best)) {	
+						document.getElementById("msg").innerHTML='Congrats, '+msg.num_match+ ' cats eat food with total score of ' +msg.match_score+ ' is already the optimal answer, reset and try another weighted bipartite graph';
+					} else {
+						document.getElementById("msg").innerHTML='Well, as recorded in the database, someone can make ' + msg.num_match + ' cats eat food with total score of ' +msg.match_score+', reset and try again';
+					}
+					
+					/*
+					if(submit.status == 200) {
+						alert("Insert done");
+					} else if(submit.status == 400) {
+						alert("This is not a valid solution");
+					} else {
+						alert("not sure what code status is this");
+					}*/
+						
+				} 
+				//else submit.status == 400, error
+				else {
+					document.getElementById("status").innerHTML='<span>error</span>';
+				}
+			}
+		}
+		//Send Request
+		submit.send(null);
 	}
 }
 
@@ -383,6 +489,12 @@ function drawStraightLine(l,r,w) {
 	svg.appendChild(path);
 
 	var weight = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+	/*var distance = Math.sqrt(Math.pow((x2-x1),2) + Math.pow((y2-y1),2));
+	var gradient = (y2-y1)/(x2-x1);
+	x_point = x1 + (4/6*distance)/ Math.sqrt(1+Math.pow(gradient,2));
+	y_point = y1 + (4/6*distance)/ Math.sqrt(1+Math.pow(gradient,2));
+	weight.setAttribute('x', x_point);
+	weight.setAttribute('y', y_point);*/
 	weight.setAttribute('x', (x1+x2)/2);
 	weight.setAttribute('y', (y1+y2)/2);
 	weight.textContent=w;

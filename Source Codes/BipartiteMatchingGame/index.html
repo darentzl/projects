@@ -18,12 +18,15 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="modal-title">Generate new worksheet with</h4>
 			</div>
-			<div class="modal-body">
+			<!--<div class="modal-body">
 				<b>N</b>= <input type="number" min="2" max="12" value=3 id="n" name='n'> on left Column
 			</div>
 			<div class="modal-body">
 				<b>M</b>= <input type="number" min="2" max="12" value=4 id="m" name='m'> on right Column
-			</div>
+			</div>-->
+			<div class="modal-body">
+				<b>Graph_id</b>= <input type="number" min="1" max="9" value=6 id="x" name='x'>
+			</div>			
 			<div class="modal-footer">
 				<button onclick="process()" id="btn" class="btn btn-primary">Generate</button>
 			</div>
@@ -39,10 +42,10 @@
 <div>
 	<button onclick="reset()" id="btn" class="btn btn-primary">Reset</button>
 	<button onclick="solve()" id="btn" class="btn btn-primary">Solve</button>
+	<button onclick="submit()" id="btn" class="btn btn-primary">Submit</button>
 </div>
 </div>
 
-<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="js/jquery-2.2.0.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/script.js"></script>
